@@ -19,8 +19,12 @@ public class HelloController {
     MediaPlayer mediaPlayer;
 
     public void initialize(){
-        musicQueue.add(new Media(new File("src/main/resources/assets/test.mp3").toURI().toString()));
-        musicQueue.add(new Media(new File("src/main/resources/assets/test2.mp3").toURI().toString()));
+        File folder = new File("src/main/resources/assets/");
+        File[] listOfFiles = folder.listFiles();
+        for (int i = 0; i < listOfFiles.length; i++) {
+            Media media = new Media( listOfFiles[i].toURI().toString());
+            musicQueue.add(media);
+        }
         mediaPlayer = new MediaPlayer(musicQueue.peek());
     }
 
@@ -45,10 +49,15 @@ public class HelloController {
 
         }
     }
-
+    @FXML
     protected void backTrack(){
-        mediaPlayer.stop();
-        mediaPlayer = new MediaPlayer(backStack.pop());
-        mediaPlayer.play();
+        if(!backStack.isEmpty()) {
+            if(mediaPlayer!=null) {
+                musicQueue.add(mediaPlayer.getMedia());
+            }
+            mediaPlayer.stop();
+            mediaPlayer = new MediaPlayer(backStack.pop());
+            mediaPlayer.play();
+        }
     }
 }

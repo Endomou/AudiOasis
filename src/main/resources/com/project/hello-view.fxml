@@ -10,7 +10,7 @@
    <children>
       <ButtonBar layoutX="465.0" layoutY="642.0" prefHeight="40.0" prefWidth="200.0">
         <buttons>
-          <Button mnemonicParsing="false" text="Back" />
+          <Button mnemonicParsing="false" onAction="#backTrack" text="Back" />
             <Button mnemonicParsing="false" onAction="#playMusic" text="Play" />
             <Button mnemonicParsing="false" onAction="#pauseMusic" text="Pause" />
             <Button mnemonicParsing="false" onAction="#nextTrack" text="Next" />
