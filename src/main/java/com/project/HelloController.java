@@ -4,17 +4,19 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.text.Text;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 
 public class HelloController {
     @FXML
-    private Label welcomeText;
-    Queue<Media> musicQueue = new LinkedList<>();
+    private Text nowPlaying;
+    Deque<Media> musicQueue = new LinkedList<>();
     Stack<Media> backStack = new Stack<>();
     MediaPlayer mediaPlayer;
 
@@ -31,7 +33,10 @@ public class HelloController {
 
     @FXML
     protected void playMusic(){
+
         mediaPlayer.play();
+        String title= mediaPlayer.getMedia().getMetadata().get("title").toString();
+        nowPlaying.setText(title);
     }
     @FXML
     protected void pauseMusic() {
@@ -46,18 +51,24 @@ public class HelloController {
         if(!musicQueue.isEmpty()){
             mediaPlayer=new MediaPlayer(musicQueue.peek());
             mediaPlayer.play();
+            String title= mediaPlayer.getMedia().getMetadata().get("title").toString();
+            nowPlaying.setText(title);
+
 
         }
     }
     @FXML
     protected void backTrack(){
         if(!backStack.isEmpty()) {
-            if(mediaPlayer!=null) {
-                musicQueue.add(mediaPlayer.getMedia());
-            }
+            musicQueue.offerFirst(mediaPlayer.getMedia());
             mediaPlayer.stop();
             mediaPlayer = new MediaPlayer(backStack.pop());
+
             mediaPlayer.play();
+            Media currentPlaying = mediaPlayer.getMedia();
+            String title= mediaPlayer.getMedia().getMetadata().get("title").toString();
+            nowPlaying.setText(title);
         }
+
     }
 }
