@@ -19,6 +19,7 @@ public class HelloController {
     Deque<Media> musicQueue = new LinkedList<>();
     Stack<Media> backStack = new Stack<>();
     MediaPlayer mediaPlayer;
+    Boolean isPlaying=false;
 
     public void initialize(){
         File folder = new File("src/main/resources/assets/");
@@ -33,14 +34,17 @@ public class HelloController {
 
     @FXML
     protected void playMusic(){
+        if(isPlaying){
+            mediaPlayer.pause();
+            isPlaying=false;
+        }
 
+        else{
         mediaPlayer.play();
-        String title= mediaPlayer.getMedia().getMetadata().get("title").toString();
+        String title = mediaPlayer.getMedia().getMetadata().get("title").toString();
         nowPlaying.setText(title);
-    }
-    @FXML
-    protected void pauseMusic() {
-        mediaPlayer.pause();
+        isPlaying=true;
+        }
     }
     @FXML
     protected void nextTrack(){
@@ -51,6 +55,7 @@ public class HelloController {
         if(!musicQueue.isEmpty()){
             mediaPlayer=new MediaPlayer(musicQueue.peek());
             mediaPlayer.play();
+            isPlaying=true;
             String title= mediaPlayer.getMedia().getMetadata().get("title").toString();
             nowPlaying.setText(title);
 
@@ -65,6 +70,7 @@ public class HelloController {
             mediaPlayer = new MediaPlayer(backStack.pop());
 
             mediaPlayer.play();
+            isPlaying=true;
             Media currentPlaying = mediaPlayer.getMedia();
             String title= mediaPlayer.getMedia().getMetadata().get("title").toString();
             nowPlaying.setText(title);
