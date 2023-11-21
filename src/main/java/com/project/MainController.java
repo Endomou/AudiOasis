@@ -1,17 +1,21 @@
 package com.project;
 
-import com.gluonhq.charm.glisten.control.CharmListView;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Cell;
+import javafx.scene.control.ListView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.Stage;
+import javafx.collections.ListChangeListener;
 
+import javafx.stage.Stage;
 import java.io.File;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.Stack;
+import java.util.*;
 
 /* Features to implement:
     - ListView of Queue
@@ -30,16 +34,26 @@ public class MainController {
     MediaPlayer mediaPlayer;
     Boolean isPlaying=false;
     @FXML
-    CharmListView<String,String> musicList;
-
+    ListView<String> musicListDisplay = new ListView<>();
     Boolean isRepeat=false;
+    ObservableList<String> observableMusicList = FXCollections.observableList(new ArrayList<>());
 
-    public void initialize(){
-
+    public void initialize() {
+        // Bind the ObservableList to the ListView
+        musicListDisplay.setItems(observableMusicList);
+        observableMusicList.add("Asdadasd");
     }
 
     @FXML
     protected void playMusic(){
+        if(musicQueue.isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("No Songs in the Queue");
+            alert.show();
+            return;
+        }
+
         if(isPlaying){
             mediaPlayer.pause();
             isPlaying=false;
@@ -48,31 +62,37 @@ public class MainController {
         else{
             mediaPlayer.play();
             String title = mediaPlayer.getMedia().getMetadata().get("title").toString();
+            System.out.println(title);
             nowPlaying.setText(title);
             isPlaying=true;
-        }
+            mediaPlayer.setOnEndOfMedia(this::nextTrack);
 
-        mediaPlayer.statusProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == MediaPlayer.Status.STOPPED) {
-                nextTrack();
-            }
-        });
+        }
 
     }
+
+    protected void playMusic(Media media){
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.play();
+        isPlaying=true;
+        String title = mediaPlayer.getMedia().getMetadata().get("title").toString();
+        nowPlaying.setText(title);
+        mediaPlayer.setOnEndOfMedia(this::nextTrack);
+    }
+
     @FXML
     protected void nextTrack(){
-        mediaPlayer.stop();
-        backStack.push(musicQueue.peek());
-        musicQueue.poll();
-
-        if(!musicQueue.isEmpty()){
-            mediaPlayer=new MediaPlayer(musicQueue.peek());
-            mediaPlayer.play();
-            isPlaying=true;
-            String title= mediaPlayer.getMedia().getMetadata().get("title").toString();
-            nowPlaying.setText(title);
-
+        if(mediaPlayer==null||musicQueue.isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("No Songs in the Queue");
+            alert.show();
+            return;
         }
+        mediaPlayer.stop();
+        backStack.push(musicQueue.poll());
+        playMusic(musicQueue.peek());
+
     }
     @FXML
     protected void backTrack(){
@@ -83,25 +103,40 @@ public class MainController {
 
             mediaPlayer.play();
             isPlaying=true;
-            Media currentPlaying = mediaPlayer.getMedia();
+
             String title= mediaPlayer.getMedia().getMetadata().get("title").toString();
             nowPlaying.setText(title);
-
-
         }
 }
     @FXML
     protected void addFolder() {
         DirectoryChooser directory = new DirectoryChooser();
         File selectedFolder = directory.showDialog(new Stage());
-        if(selectedFolder!=null){
-        File[] listOfFiles = selectedFolder.listFiles();
 
-        for (int i = 0; i < listOfFiles.length; i++) {
-            Media media = new Media( listOfFiles[i].toURI().toString());
-            musicQueue.add(media);
-        }
-        mediaPlayer = new MediaPlayer(musicQueue.peek());
+        if(selectedFolder!=null) {
+            File[] listOfFiles = selectedFolder.listFiles();
+            ObservableList<String> list = FXCollections.observableList(new ArrayList<>());
+            for (int i = 0; i < listOfFiles.length; i++) {
+                if(!isAudio(listOfFiles[i].getName())){
+                    continue;
+                }
+                Media media = new Media(listOfFiles[i].toURI().toString());
+                MediaPlayer mediaPlayer1 = new MediaPlayer(media);
+                mediaPlayer1.setOnReady(() -> {
+                    String title = mediaPlayer1.getMedia().getMetadata().get("title").toString();
+                    list.add(title);
+
+                });
+
+                musicQueue.add(media);
+            }
+
+            mediaPlayer = new MediaPlayer(musicQueue.peek());
+
+
+
+            // Set the ObservableList to the musicListDisplay
+            musicListDisplay.setItems(list);
         }
     }
 
@@ -116,4 +151,7 @@ public class MainController {
 
     }
 
+    protected Boolean isAudio(String file){
+        return file.contains(".mp3") || file.contains(".wav") || file.contains(".flac");
+    }
 }
