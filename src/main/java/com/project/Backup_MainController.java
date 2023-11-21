@@ -9,13 +9,10 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.Stage;
 
+import javafx.stage.Stage;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.Stack;
+import java.util.*;
 
 /* Features to implement:
     - ListView of Queue
@@ -26,11 +23,11 @@ Currently Being implemented but not working:
     - Repeat feature
     - Automatic next track after current song is finished
  */
-public class MainController {
+public class Backup_MainController {
     @FXML
     private Text nowPlaying;
-    Deque<Song> musicQueue = new LinkedList<>();
-    Stack<Song> backStack = new Stack<>();
+    Deque<Media> musicQueue = new LinkedList<>();
+    Stack<Media> backStack = new Stack<>();
     MediaPlayer mediaPlayer;
     Boolean isPlaying=false;
     @FXML
@@ -41,11 +38,12 @@ public class MainController {
     public void initialize() {
         // Bind the ObservableList to the ListView
         musicListDisplay.setItems(observableMusicList);
+        observableMusicList.add("Asdadasd");
     }
 
     @FXML
     protected void playMusic(){
-        if(musicQueue.isEmpty()||mediaPlayer==null){
+        if(musicQueue.isEmpty()){
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setContentText("No Songs in the Queue");
@@ -72,8 +70,11 @@ public class MainController {
 
     protected void playMusic(Media media){
         mediaPlayer = new MediaPlayer(media);
-        isPlaying=false;
-        playMusic();
+        mediaPlayer.play();
+        isPlaying=true;
+        String title = mediaPlayer.getMedia().getMetadata().get("title").toString();
+        nowPlaying.setText(title);
+        mediaPlayer.setOnEndOfMedia(this::nextTrack);
     }
 
     @FXML
@@ -85,29 +86,23 @@ public class MainController {
             alert.show();
             return;
         }
-        mediaPlayer.dispose();
-        System.out.println("DEBUG: NEXT TRACK");
+        mediaPlayer.stop();
         backStack.push(musicQueue.poll());
-        if(!musicQueue.isEmpty()) {
-            playMusic(musicQueue.peek().getMedia());
-        }
-        observableMusicList.remove(0);
+        playMusic(musicQueue.peek());
 
     }
     @FXML
     protected void backTrack(){
         if(!backStack.isEmpty()) {
-            musicQueue.offerFirst(new Song(mediaPlayer.getMedia()));
-
+            musicQueue.offerFirst(mediaPlayer.getMedia());
             mediaPlayer.stop();
-            mediaPlayer = new MediaPlayer(backStack.pop().getMedia());
+            mediaPlayer = new MediaPlayer(backStack.pop());
 
             mediaPlayer.play();
             isPlaying=true;
 
             String title= mediaPlayer.getMedia().getMetadata().get("title").toString();
             nowPlaying.setText(title);
-            observableMusicList.add(0, title);
         }
 }
     @FXML
@@ -117,26 +112,28 @@ public class MainController {
 
         if(selectedFolder!=null) {
             File[] listOfFiles = selectedFolder.listFiles();
-
+            ObservableList<String> list = FXCollections.observableList(new ArrayList<>());
             for (int i = 0; i < listOfFiles.length; i++) {
                 if(!isAudio(listOfFiles[i].getName())){
                     continue;
                 }
                 Media media = new Media(listOfFiles[i].toURI().toString());
-
                 MediaPlayer mediaPlayer1 = new MediaPlayer(media);
                 mediaPlayer1.setOnReady(() -> {
                     String title = mediaPlayer1.getMedia().getMetadata().get("title").toString();
-                    observableMusicList.add(title);
+                    list.add(title);
 
                 });
 
-                musicQueue.add(new Song(media));
+                musicQueue.add(media);
             }
 
+            mediaPlayer = new MediaPlayer(musicQueue.peek());
 
-            mediaPlayer = new MediaPlayer(musicQueue.peek().getMedia());
 
+
+            // Set the ObservableList to the musicListDisplay
+            musicListDisplay.setItems(list);
         }
     }
 
@@ -154,5 +151,4 @@ public class MainController {
     protected Boolean isAudio(String file){
         return file.contains(".mp3") || file.contains(".wav") || file.contains(".flac");
     }
-
 }
