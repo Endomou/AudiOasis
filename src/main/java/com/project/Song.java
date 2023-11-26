@@ -1,5 +1,6 @@
 package com.project;
 
+
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -8,10 +9,13 @@ NOT YET IMPLEMENTED
  */
 public class Song {
     private Media source;
+    public String title;
+    public String artist;
+
 
     public String getTitle(){
-        String title = source.getMetadata().get("title").toString();
         return title;
+
     }
     public Media getMedia(){
         return source;
@@ -19,5 +23,22 @@ public class Song {
 
     public Song(Media media) {
         this.source = media;
+        MediaPlayer player = new MediaPlayer(source);
+        player.setOnReady(()-> {
+            title = player.getMedia().getMetadata().get("title").toString();
+            artist = player.getMedia().getMetadata().get("artist").toString();
+            this.toString();
+        });
+//        player.dispose();
+
+
+    }
+    @Override
+    public String toString() {
+        if (title != null && artist != null) {
+            return title + " - " + artist;
+        } else {
+            return "Loading...";
+        }
     }
 }

@@ -1,4 +1,4 @@
-module com.project {
+module com.project.audioasis2 {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.media;
