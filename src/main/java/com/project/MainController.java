@@ -7,10 +7,7 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Slider;
+import javafx.scene.control.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
@@ -20,10 +17,7 @@ import javafx.util.Callback;
 import javafx.util.Duration;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.Stack;
+import java.util.*;
 
 /* Features to implement:
     - ListView of Queue
@@ -67,6 +61,7 @@ public class MainController {
             alert.show();
             return;
         }
+
         MediaPlayer.Status status = mediaPlayer.getStatus();
         if(status == MediaPlayer.Status.PLAYING){
             mediaPlayer.pause();
@@ -81,7 +76,6 @@ public class MainController {
             mediaPlayer.setOnEndOfMedia(()->{
                 seekSlider.setValue(0);
                 nextTrack();
-
             });
 
         }
@@ -156,10 +150,69 @@ public class MainController {
         else{
             isRepeat=true;
         }
+    }
+    @FXML
+    protected void addToPlaylist() {
+        Song selectedSong = musicListDisplay.getSelectionModel().getSelectedItem();
+
+        if (selectedSong == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("No song selected.");
+            alert.show();
+            return;
+        }
+
+        Playlist selectedPlaylist = playlistDisplay.getSelectionModel().getSelectedItem();
+
+        if (selectedPlaylist == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("No playlist selected.");
+            alert.show();
+            return;
+        }
+
+        selectedPlaylist.addSong(selectedSong);
+    }
+    @FXML
+    protected void createPlaylist() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Create Playlist");
+        dialog.setHeaderText(null);
+        dialog.setContentText("Enter the title of the playlist:");
+
+        Optional<String> result = dialog.showAndWait();
+
+        result.ifPresent(title -> {
+            Playlist newPlaylist = new Playlist(title);
+            observablePlaylist.add(newPlaylist);
+            playlistDisplay.setItems(observablePlaylist);
+        });
 
     }
+    @FXML
+    protected void playlistToQueue() {
+        Playlist selectedPlaylist = playlistDisplay.getSelectionModel().getSelectedItem();
+
+        if (selectedPlaylist == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("No playlist selected.");
+            alert.show();
+            return;
+        }
+
+        Deque<Song> playlistSongs = new LinkedList<>();
+        playlistSongs.addAll(Arrays.asList(selectedPlaylist.getMusicList()));
 
 
+        clearQueue();
+        // Add songs from the playlist to the queue and observable list
+        musicQueue.addAll(playlistSongs);
+        observableMusicList.addAll(playlistSongs);
+
+    }
 
     protected Boolean isAudio(String file){
         return file.contains(".mp3") || file.contains(".wav") || file.contains(".flac");
@@ -191,7 +244,7 @@ public class MainController {
             }
         });
     }
-
+    @FXML
     protected void clearQueue(){
         musicQueue.clear();
         observableMusicList.clear();

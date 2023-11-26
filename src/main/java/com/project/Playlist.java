@@ -1,9 +1,10 @@
 package com.project;
+import java.util.Collection;
 import java.util.Deque;
 import java.util.LinkedList;
 
 public class Playlist {
-    private LinkedList<Song> musicList;
+    private LinkedList<Song> musicList = new LinkedList<>();
     private String playlistName;
 
     public int getSize(){
@@ -25,9 +26,21 @@ public class Playlist {
         return titleList;
 
     }
+    public Playlist(String title){
+        this.playlistName = title;
+    }
+    public Song[] getMusicList(){
+        Song[] array = new Song[musicList.size()];
+        for (int i = 0; i < musicList.size(); i++) {
+            array[i]=musicList.get(i);
+        }
+        return array;
+    }
 
     @Override
     public String toString(){
         return playlistName;
     }
+
+
 }
