@@ -1,53 +1,138 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1285.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.MainController">
    <children>
-      <ButtonBar layoutX="495.0" layoutY="644.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="290.0">
-        <buttons>
-            <Button mnemonicParsing="false" onAction="#nextTrack" text="Next" />
-            <Button mnemonicParsing="false" onAction="#playMusic" prefHeight="30.0" text="Play/Pause" />
-          <Button mnemonicParsing="false" onAction="#backTrack" text="Back" />
-        </buttons>
-      </ButtonBar>
-      <Text layoutX="298.0" layoutY="615.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Now Playing:">
+      <ImageView fitHeight="720.0" fitWidth="1285.0" pickOnBounds="true">
+         <image>
+            <Image url="@../../assets/NAVYB.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="71.0" fitWidth="1285.0" layoutX="1.0" layoutY="650.0" pickOnBounds="true">
+         <image>
+            <Image url="@../../assets/WAVE.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="454.0" fitWidth="210.0" layoutX="1049.0" layoutY="167.0" opacity="0.15" pickOnBounds="true">
+         <image>
+            <Image url="@../../assets/BLUEMAGENTA.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="435.0" fitWidth="192.0" layoutX="1058.0" layoutY="178.0" opacity="0.28" pickOnBounds="true">
+         <image>
+            <Image url="@../../assets/darkteal.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="478.0" fitWidth="314.0" layoutX="25.0" layoutY="139.0" opacity="0.15" pickOnBounds="true">
+         <image>
+            <Image url="@../../assets/BLUEMAGENTA.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="460.0" fitWidth="299.0" layoutX="32.0" layoutY="148.0" opacity="0.28" pickOnBounds="true">
+         <image>
+            <Image url="@../../assets/darkteal.png" />
+         </image>
+      </ImageView>
+      <Text fill="BEIGE" layoutX="370.0" layoutY="612.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Now Playing:" wrappingWidth="200.0">
          <font>
-            <Font size="29.0" />
+            <Font name="Century Gothic" size="20.0" />
          </font>
       </Text>
-      <Text fx:id="nowPlaying" depthTest="ENABLE" layoutX="495.0" layoutY="542.0" nodeOrientation="LEFT_TO_RIGHT" pickOnBounds="true" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="523.0">
+      <ScrollPane layoutX="40.0" layoutY="192.0" prefHeight="405.0" prefWidth="282.0">
+         <content>
+            <ListView fx:id="musicListDisplay" opacity="0.35" prefHeight="448.0" prefWidth="266.0" style="-fx-background-color: beige;" />
+         </content>
+      </ScrollPane>
+      <ScrollPane layoutX="1063.0" layoutY="220.0" prefHeight="385.0" prefWidth="182.0">
+         <content>
+            <ListView fx:id="playlistDisplay" opacity="0.35" prefHeight="450.0" prefWidth="303.0" style="-fx-background-color: beige;" />
+         </content></ScrollPane>
+      <Button layoutX="32.0" layoutY="151.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="114.0" style="-fx-background-color: transparent;" text="Add Song" textFill="BEIGE">
          <font>
-            <Font size="29.0" />
+            <Font name="Century Gothic" size="18.0" />
+         </font>
+      </Button>
+      <Button layoutX="1085.0" layoutY="178.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Add to playlist" textFill="BEIGE">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+      <Slider fx:id="seekSlider" blockIncrement="1.0" layoutY="636.0" opacity="0.9" prefHeight="14.0" prefWidth="1285.0" style="-fx-background-color: beige;" />
+      <Button layoutX="846.0" layoutY="663.0" mnemonicParsing="false" onAction="#nextTrack" style="-fx-background-color: transparent;" text="Next" textFill="BEIGE">
+         <font>
+            <Font size="20.0" />
+         </font></Button>
+      <Button layoutX="608.0" layoutY="666.0" mnemonicParsing="false" onAction="#playMusic" prefHeight="30.0" style="-fx-background-color: transparent;" text="Play/Pause" textFill="BEIGE">
+         <font>
+            <Font name="Century Gothic" size="20.0" />
+         </font>
+      </Button>
+      <Button layoutX="437.0" layoutY="663.0" mnemonicParsing="false" onAction="#backTrack" style="-fx-background-color: transparent;" text="Back" textFill="BEIGE">
+         <font>
+            <Font size="20.0" />
+         </font></Button>
+      <AnchorPane layoutX="24.0" layoutY="14.0" prefHeight="117.0" prefWidth="314.0">
+         <children>
+            <ImageView fitHeight="109.0" fitWidth="314.0" opacity="0.15" pickOnBounds="true">
+               <image>
+                  <Image url="@../../assets/BLUEMAGENTA.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="97.0" fitWidth="299.0" layoutX="9.0" layoutY="6.0" opacity="0.28" pickOnBounds="true">
+               <image>
+                  <Image url="@../../assets/darkteal.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="17.0" layoutY="14.0" mnemonicParsing="false" onAction="#addFolder" style="-fx-background-color: transparent;" text="Add Folder" textAlignment="CENTER" textFill="BEIGE" wrapText="true">
+               <font>
+                  <Font name="Century Gothic" size="15.0" />
+               </font>
+            </Button>
+            <Button layoutX="15.0" layoutY="40.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Create Playlist" textFill="BEIGE">
+               <font>
+                  <Font name="Century Gothic" size="15.0" />
+               </font>
+            </Button>
+            <Button layoutX="17.0" layoutY="69.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Delete Playlist" textFill="BEIGE">
+               <font>
+                  <Font name="Century Gothic" size="15.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+      <Button layoutX="181.0" layoutY="151.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Remove Song" textFill="BEIGE">
+         <font>
+            <Font name="Century Gothic" size="18.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="145.0" fitWidth="210.0" layoutX="1048.0" layoutY="14.0" pickOnBounds="true">
+         <image>
+            <Image url="@../../assets/audiooasis.PNG" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="608.0" fitWidth="661.0" layoutX="364.0" layoutY="13.0" opacity="0.15" pickOnBounds="true">
+         <image>
+            <Image url="@../../assets/BLUEMAGENTA.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="560.0" fitWidth="640.0" layoutX="375.0" layoutY="26.0" opacity="0.28" pickOnBounds="true">
+         <image>
+            <Image url="@../../assets/BLUEMAGENTA.png" />
+         </image>
+      </ImageView>
+      <Text layoutX="516.0" layoutY="610.0" strokeType="OUTSIDE" strokeWidth="0.0">
+         <font>
+            <Font name="Century Gothic" size="12.0" />
          </font>
       </Text>
-      <Button layoutX="14.0" layoutY="53.0" mnemonicParsing="false" onAction="#addFolder" text="Add Folder" />
-      <ScrollPane layoutX="8.0" layoutY="127.0" prefHeight="447.0" prefWidth="314.0">
-         <content>
-            <ListView fx:id="musicListDisplay" prefHeight="441.0" prefWidth="312.0" />
-         </content>
-      </ScrollPane>
-      <ButtonBar layoutX="495.0" layoutY="66.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="314.0">
-         <buttons>
-            <Button mnemonicParsing="false" text="Delete Playlist" />
-            <Button mnemonicParsing="false" text="Create Playlist" />
-         </buttons>
-      </ButtonBar>
-      <ScrollPane layoutX="495.0" layoutY="127.0" prefHeight="447.0" prefWidth="314.0">
-         <content>
-            <ListView fx:id="playlistDisplay" prefHeight="441.0" prefWidth="312.0" />
-         </content>
-      </ScrollPane>
-      <Button layoutX="208.0" layoutY="86.0" mnemonicParsing="false" text="Remove Song" />
-      <Button layoutX="108.0" layoutY="86.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" text="Add Song" />
-      <Button layoutX="361.0" layoutY="127.0" mnemonicParsing="false" text="Add to playlist" />
-      <Slider fx:id="seekSlider" blockIncrement="1.0" layoutY="630.0" prefHeight="14.0" prefWidth="1280.0" />
    </children>
 </AnchorPane>
+
