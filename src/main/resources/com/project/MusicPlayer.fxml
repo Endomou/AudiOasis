@@ -61,7 +61,7 @@
             <Font name="Century Gothic" size="18.0" />
          </font>
       </Button>
-      <Button layoutX="1085.0" layoutY="178.0" mnemonicParsing="false" onAction="#addToPlaylist" style="-fx-background-color: transparent;" text="Add to playlist" textFill="BEIGE">
+      <Button layoutX="1104.0" layoutY="177.0" mnemonicParsing="false" onAction="#addToPlaylist" style="-fx-background-color: transparent;" text="Add to playlist" textFill="BEIGE">
          <font>
             <Font size="18.0" />
          </font></Button>
@@ -133,7 +133,7 @@
             <Image url="@../../assets/BLUEMAGENTA.png" />
          </image>
       </ImageView>
-      <Text fx:id="nowPlaying" fill="WHITE" layoutX="504.0" layoutY="611.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="408.0">
+      <Text fx:id="nowPlaying" fill="WHITE" layoutX="496.0" layoutY="612.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="519.0">
          <font>
             <Font name="Century Gothic" size="20.0" />
          </font>
@@ -143,5 +143,16 @@
             <Font size="18.0" />
          </font>
       </Button>
+      <Button layoutX="1000.0" layoutY="666.0" mnemonicParsing="false" onAction="#shuffleQueue" style="-fx-background-color: transparent;" text="Shuffle Queue" textFill="BEIGE">
+         <font>
+            <Font name="Century Gothic" size="15.0" />
+         </font>
+      </Button>
+      <Button layoutX="266.0" layoutY="663.0" mnemonicParsing="false" onAction="#shuffleQueue" style="-fx-background-color: transparent;" text="Repeat" textFill="BEIGE">
+         <font>
+            <Font name="Century Gothic" size="15.0" />
+         </font>
+      </Button>
+      <ImageView fx:id="albumArtView" fitHeight="560.0" fitWidth="640.0" layoutX="375.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>

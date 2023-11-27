@@ -5,9 +5,12 @@ import javafx.beans.Observable;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
@@ -16,6 +19,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.util.*;
 
@@ -40,6 +44,8 @@ public class MainController {
     ListView<Song> musicListDisplay = new ListView<>();
     @FXML
     ListView<Playlist> playlistDisplay = new ListView<>();
+    @FXML
+    ImageView albumArtView = new ImageView();
     Boolean isRepeat=false;
     ObservableList<Song> observableMusicList = FXCollections.observableList(new ArrayList<>());
     ObservableList<Playlist> observablePlaylist = FXCollections.observableList(new ArrayList<>());
@@ -49,7 +55,7 @@ public class MainController {
 
     public void initialize() {
         playlistDisplay.setItems(observablePlaylist);
-
+        albumArtView.setPreserveRatio(true);
     }
 
     @FXML
@@ -77,6 +83,10 @@ public class MainController {
                 seekSlider.setValue(0);
                 nextTrack();
             });
+            System.out.println("Debug: Metadata");
+            System.out.println(mediaPlayer.getMedia().getMetadata().entrySet());
+            Image image = (Image) mediaPlayer.getMedia().getMetadata().get("image");
+            albumArtView.setImage(image);
 
         }
 
@@ -91,7 +101,6 @@ public class MainController {
     protected void nextTrack(){
 
         if(mediaPlayer==null||musicQueue.isEmpty()){
-
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setContentText("No Songs in the Queue");
@@ -140,6 +149,7 @@ public class MainController {
             mediaPlayer = new MediaPlayer(musicQueue.peek().getMedia());
             musicListDisplay.setItems(observableMusicList);
         }
+
     }
 
     @FXML
@@ -219,6 +229,10 @@ public class MainController {
     }
 
     protected void seekBinder() {
+        if (mediaPlayer == null || mediaPlayer.getTotalDuration() == null) {
+            // Handle the case where mediaPlayer or its duration is not available
+            return;
+        }
         ReadOnlyObjectProperty<Duration> duration = mediaPlayer.totalDurationProperty();
 
         // Set max value of slider to 100 (percentage)
@@ -243,6 +257,30 @@ public class MainController {
                 seekSlider.setValue(percentage);
             }
         });
+    }
+
+    @FXML
+    protected void shuffleQueue() {
+        if (musicQueue.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("Queue is empty.");
+            alert.show();
+            return;
+        }
+
+        List<Song> shuffledList = new ArrayList<>(musicQueue);
+        Collections.shuffle(shuffledList);
+
+        // Clear existing queue and observable list
+        clearQueue();
+
+        // Add shuffled songs to the queue and observable list
+        musicQueue.addAll(shuffledList);
+        observableMusicList.addAll(shuffledList);
+
+        // Update the musicListDisplay
+        musicListDisplay.setItems(observableMusicList);
     }
     @FXML
     protected void clearQueue(){

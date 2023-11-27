@@ -3,7 +3,6 @@ package com.project;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-
 /*
 NOT YET IMPLEMENTED
  */
@@ -27,9 +26,8 @@ public class Song {
         player.setOnReady(()-> {
             title = player.getMedia().getMetadata().get("title").toString();
             artist = player.getMedia().getMetadata().get("artist").toString();
-            this.toString();
+
         });
-//        player.dispose();
 
 
     }
