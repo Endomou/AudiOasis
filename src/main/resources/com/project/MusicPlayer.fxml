@@ -7,6 +7,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -56,14 +57,14 @@
          <content>
             <ListView fx:id="playlistDisplay" opacity="0.35" prefHeight="450.0" prefWidth="303.0" style="-fx-background-color: beige;" />
          </content></ScrollPane>
-      <Button layoutX="32.0" layoutY="151.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="114.0" style="-fx-background-color: transparent;" text="Add Song" textFill="BEIGE">
+      <Button layoutX="32.0" layoutY="151.0" mnemonicParsing="false" onAction="#addSong" prefHeight="35.0" prefWidth="114.0" style="-fx-background-color: transparent;" text="Add Song" textFill="BEIGE">
          <font>
             <Font name="Century Gothic" size="18.0" />
          </font>
       </Button>
-      <Button layoutX="1104.0" layoutY="177.0" mnemonicParsing="false" onAction="#addToPlaylist" style="-fx-background-color: transparent;" text="Add to playlist" textFill="BEIGE">
+      <Button layoutX="1045.0" layoutY="173.0" mnemonicParsing="false" onAction="#addToPlaylist" prefHeight="39.0" prefWidth="120.0" style="-fx-background-color: transparent;" text="Add to playlist" textFill="BEIGE">
          <font>
-            <Font size="18.0" />
+            <Font size="15.0" />
          </font></Button>
       <Slider fx:id="seekSlider" blockIncrement="1.0" layoutY="636.0" opacity="0.9" prefHeight="14.0" prefWidth="1285.0" style="-fx-background-color: beige;" />
       <Button layoutX="846.0" layoutY="663.0" mnemonicParsing="false" onAction="#nextTrack" style="-fx-background-color: transparent;" text="Next" textFill="BEIGE">
@@ -96,12 +97,12 @@
                   <Font name="Century Gothic" size="15.0" />
                </font>
             </Button>
-            <Button layoutX="15.0" layoutY="40.0" mnemonicParsing="false" onAction="#createPlaylist" style="-fx-background-color: transparent;" text="Create Playlist" textFill="BEIGE">
+            <Button layoutX="6.0" layoutY="40.0" mnemonicParsing="false" onAction="#createPlaylist" style="-fx-background-color: transparent;" text="Create Playlist" textFill="BEIGE">
                <font>
                   <Font name="Century Gothic" size="15.0" />
                </font>
             </Button>
-            <Button layoutX="17.0" layoutY="69.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Delete Playlist" textFill="BEIGE">
+            <Button layoutX="8.0" layoutY="69.0" mnemonicParsing="false" onAction="#deletePlaylist" style="-fx-background-color: transparent;" text="Delete Playlist" textFill="BEIGE">
                <font>
                   <Font name="Century Gothic" size="15.0" />
                </font>
@@ -111,9 +112,19 @@
                   <Font name="Century Gothic" size="15.0" />
                </font>
             </Button>
+            <Button fx:id="sortTitleButton" layoutX="138.0" layoutY="41.0" mnemonicParsing="false" onAction="#sortByTitle" style="-fx-background-color: transparent;" text="Sort Queue by Title" textFill="BEIGE">
+               <font>
+                  <Font name="Century Gothic" size="15.0" />
+               </font>
+            </Button>
+            <Button fx:id="sortArtistButton" layoutX="135.0" layoutY="69.0" mnemonicParsing="false" onAction="#sortByArtist" style="-fx-background-color: transparent;" text="Sort Queue by Artist" textFill="BEIGE">
+               <font>
+                  <Font name="Century Gothic" size="15.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
-      <Button layoutX="181.0" layoutY="151.0" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Remove Song" textFill="BEIGE">
+      <Button layoutX="181.0" layoutY="151.0" mnemonicParsing="false" onAction="#removeSong" style="-fx-background-color: transparent;" text="Remove Song" textFill="BEIGE">
          <font>
             <Font name="Century Gothic" size="18.0" />
          </font>
@@ -138,21 +149,31 @@
             <Font name="Century Gothic" size="20.0" />
          </font>
       </Text>
-      <Button layoutX="1072.0" layoutY="136.0" mnemonicParsing="false" onAction="#playlistToQueue" style="-fx-background-color: transparent;" text="Add playlist to queue" textFill="BEIGE">
+      <Button layoutX="246.0" layoutY="663.0" mnemonicParsing="false" onAction="#shuffleQueue" style="-fx-background-color: transparent;" text="Shuffle Queue" textFill="BEIGE">
          <font>
-            <Font size="18.0" />
+            <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="1000.0" layoutY="666.0" mnemonicParsing="false" onAction="#shuffleQueue" style="-fx-background-color: transparent;" text="Shuffle Queue" textFill="BEIGE">
+      <Button fx:id="repeatText" layoutX="981.0" layoutY="664.0" mnemonicParsing="false" onAction="#setRepeat" style="-fx-background-color: transparent;" text="Repeat: Disabled" textFill="BEIGE">
          <font>
-            <Font name="Century Gothic" size="15.0" />
+            <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="266.0" layoutY="663.0" mnemonicParsing="false" onAction="#shuffleQueue" style="-fx-background-color: transparent;" text="Repeat" textFill="BEIGE">
+      <HBox alignment="CENTER" layoutX="375.0" layoutY="26.0" prefHeight="560.0" prefWidth="632.0">
+         <children>
+            <ImageView fx:id="albumArtView" fitHeight="545.0" fitWidth="626.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </HBox>
+      <Slider fx:id="volumeSlider" blockIncrement="0.1" layoutX="42.0" layoutY="659.0" majorTickUnit="0.1" max="1.0" prefHeight="14.0" prefWidth="160.0" showTickMarks="true" value="1.0" />
+      <Button layoutX="50.0" layoutY="664.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="152.0" style="-fx-background-color: transparent;" text="Volume" textFill="BEIGE">
          <font>
-            <Font name="Century Gothic" size="15.0" />
+            <Font size="20.0" />
          </font>
       </Button>
-      <ImageView fx:id="albumArtView" fitHeight="560.0" fitWidth="640.0" layoutX="375.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true" />
+      <Button layoutX="1162.0" layoutY="177.0" mnemonicParsing="false" onAction="#playlistToQueue" style="-fx-background-color: transparent;" text="Play Playlist" textFill="BEIGE">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>
