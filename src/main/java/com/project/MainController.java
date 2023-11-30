@@ -55,13 +55,16 @@ public class MainController {
     @FXML
     Button sortArtistButton;
 
-
+    public void refresh(){
+        musicListDisplay.refresh();
+    }
 
     public void initialize() {
         playlistDisplay.setItems(observablePlaylist);
         albumArtView.setPreserveRatio(true);
         musicListDisplay.setItems(observableMusicList);
         volumeBinder();
+
     }
 
     @FXML
@@ -80,6 +83,7 @@ public class MainController {
         }
 
         else{
+            musicListDisplay.refresh();
             mediaPlayer.play();
             String title = mediaPlayer.getMedia().getMetadata().get("title").toString();
             seekBinder();
@@ -159,7 +163,9 @@ public class MainController {
                 addSongToQueue(new Song(media));
             }
             mediaPlayer = new MediaPlayer(musicQueue.peek().getMedia());
+            mediaPlayer.setOnReady(this::refresh);
         }
+        refresh();
     }
 
     @FXML
@@ -173,6 +179,8 @@ public class MainController {
         File song = fileChooser.showOpenDialog(null);
         if(song!=null){
             addSongToQueue(new Song(new Media(song.toURI().toString())));
+            mediaPlayer=new MediaPlayer(musicQueue.peek().getMedia());
+            mediaPlayer.setOnReady(()->{musicListDisplay.refresh();});
         }
     }
 
