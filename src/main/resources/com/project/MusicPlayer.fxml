@@ -23,12 +23,12 @@
             <Image url="@../../assets/WAVE.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="454.0" fitWidth="210.0" layoutX="1049.0" layoutY="167.0" opacity="0.15" pickOnBounds="true">
+      <ImageView fitHeight="432.0" fitWidth="210.0" layoutX="1049.0" layoutY="192.0" opacity="0.15" pickOnBounds="true">
          <image>
             <Image url="@../../assets/BLUEMAGENTA.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="435.0" fitWidth="218.0" layoutX="1045.0" layoutY="178.0" opacity="0.28" pickOnBounds="true">
+      <ImageView fitHeight="412.0" fitWidth="194.0" layoutX="1059.0" layoutY="201.0" opacity="0.28" pickOnBounds="true">
          <image>
             <Image url="@../../assets/darkteal.png" />
          </image>
@@ -53,16 +53,16 @@
             <ListView fx:id="musicListDisplay" opacity="0.35" prefHeight="448.0" prefWidth="266.0" style="-fx-background-color: beige;" />
          </content>
       </ScrollPane>
-      <ScrollPane layoutX="1063.0" layoutY="220.0" prefHeight="385.0" prefWidth="182.0">
+      <ScrollPane layoutX="1071.0" layoutY="225.0" prefHeight="380.0" prefWidth="174.0">
          <content>
-            <ListView fx:id="playlistDisplay" opacity="0.35" prefHeight="450.0" prefWidth="303.0" style="-fx-background-color: beige;" />
+            <ListView fx:id="playlistDisplay" opacity="0.35" prefHeight="411.0" prefWidth="236.0" style="-fx-background-color: beige;" />
          </content></ScrollPane>
       <Button layoutX="32.0" layoutY="151.0" mnemonicParsing="false" onAction="#addSong" prefHeight="35.0" prefWidth="114.0" style="-fx-background-color: transparent;" text="Add Song" textFill="BEIGE">
          <font>
             <Font name="Century Gothic" size="18.0" />
          </font>
       </Button>
-      <Button layoutX="1045.0" layoutY="173.0" mnemonicParsing="false" onAction="#addToPlaylist" prefHeight="39.0" prefWidth="120.0" style="-fx-background-color: transparent;" text="Add to playlist" textFill="BEIGE">
+      <Button layoutX="1049.0" layoutY="193.0" mnemonicParsing="false" onAction="#addToPlaylist" prefHeight="39.0" prefWidth="120.0" style="-fx-background-color: transparent;" text="Add to playlist" textFill="BEIGE">
          <font>
             <Font size="15.0" />
          </font></Button>
@@ -170,7 +170,7 @@
             <Font size="20.0" />
          </font>
       </Button>
-      <Button layoutX="1162.0" layoutY="177.0" mnemonicParsing="false" onAction="#playlistToQueue" style="-fx-background-color: transparent;" text="Play Playlist" textFill="BEIGE">
+      <Button layoutX="1162.0" layoutY="197.0" mnemonicParsing="false" onAction="#playlistToQueue" style="-fx-background-color: transparent;" text="Play Playlist" textFill="BEIGE">
          <font>
             <Font size="15.0" />
          </font>
