@@ -3,14 +3,11 @@ package com.project;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-/*
-NOT YET IMPLEMENTED
- */
+
 public class Song {
     private final Media source;
     public String title;
     public String artist;
-
 
     public String getTitle(){
         return title;
