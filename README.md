@@ -1,7 +1,6 @@
-# AudiOasis
-LBYCPA2 Project
 
 # AudiOasis
+LBYCPA2 Project
 
 AudiOasis is a simple desktop music player built with JavaFX. It lets you load songs from your filesystem, manage a playback queue, create playlists, and control playback using an intuitive UI.
 ---
